@@ -111,3 +111,11 @@ usermod -aG root,bin,daemon,tty,disk,network,video,audio skylens
 echo "skylens:1" | chpasswd
 sed -i 's/\# \%wheel ALL=(ALL) ALL/\%wheel ALL=(ALL) ALL/g' /etc/sudoers
 ```
+
+## 14. boot
+
+```sh
+cp /boot/vmlinuz-* /boot/efi/bootx64.efi
+mount | grep efivars
+efibootmgr --create --disk /dev/sda --part 3 --label "ArchLinux" --loader "\efi\bootx64.efi"
+```
