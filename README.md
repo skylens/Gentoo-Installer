@@ -86,9 +86,9 @@ arch-chroot /mnt
 ## 13. after chroot setting
 
 ```sh
-echo 'en_US.UTF-8' > /etc/locale.gen
-echo 'zh_CN.GB18030' >> /etc/locale.gen
-echo 'zh_CN.UTF-8' >> /etc/locale.gen
+echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen
+echo 'zh_CN.GB18030 GB18030' >> /etc/locale.gen
+echo 'zh_CN.UTF-8 UTF-8' >> /etc/locale.gen
 locale-gen
 echo "LANG=zh_CN.UTF-8" > /etc/locale.conf
 timedatectl set-timezone Asia/Shanghai
@@ -113,4 +113,6 @@ sed -i 's/\# \%wheel ALL=(ALL) ALL/\%wheel ALL=(ALL) ALL/g' /etc/sudoers
 cp /boot/vmlinuz-* /boot/efi/bootx64.efi
 mount | grep efivars
 efibootmgr --create --disk /dev/sda --part 3 --label "ArchLinux" --loader "\efi\bootx64.efi"
+efibootmgr -c -d /dev/sda -p 3 -L "ArchLinux" -l '\efi\bootx64.efi' -u 'initrd=\initramfs-linux.img'
+echo "initrd=\efi\arch\initramfs-linux.img root=/dev/mapper/crypt cryptdevice=/dev/sda3:crypt ro quiet" | iconv -f ascii -t ucs2 | efibootmgr --create --gpt --disk /dev/sda --part 1  --label "Arch Linux" --loader '\efi\arch\vmlinuz-linux.efi' --append-binary-args -
 ```
