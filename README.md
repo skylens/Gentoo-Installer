@@ -77,14 +77,6 @@ pacstrap /mnt base base-devel --force
 genfstab -p /mnt >> /mnt/etc/fstab
 ```
 
-## 12. localtation
-
-```sh
-echo 'en_US.UTF-8' > /mnt/etc/locale.gen
-echo 'zh_CN.GB18030' >> /mnt/etc/locale.gen
-echo 'zh_CN.UTF-8' >> /mnt/etc/locale.gen
-```
-
 ## 12. chroot
 
 ```sh
@@ -94,6 +86,9 @@ arch-chroot /mnt
 ## 13. after chroot setting
 
 ```sh
+echo 'en_US.UTF-8' > /etc/locale.gen
+echo 'zh_CN.GB18030' >> /etc/locale.gen
+echo 'zh_CN.UTF-8' >> /etc/locale.gen
 locale-gen
 echo "LANG=zh_CN.UTF-8" > /etc/locale.conf
 timedatectl set-timezone Asia/Shanghai
